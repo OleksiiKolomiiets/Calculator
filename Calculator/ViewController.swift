@@ -16,17 +16,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         inTheMiddleOfTyping = false
     }
-    private var inTheMiddleOfTyping: Bool! {
-        didSet {
-            if inTheMiddleOfTyping {
-                display.backgroundColor =  #colorLiteral(red: 0.9686274529, green: 0.9385686198, blue: 0.5984157131, alpha: 0.5273169949)
-                display.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
-            } else {
-                display.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
-                display.textColor = #colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)
-            }
-        }
-    }
+    private var inTheMiddleOfTyping: Bool! 
     
     
     private func resetDisplay() {
@@ -61,7 +51,7 @@ class ViewController: UIViewController {
         }
     }
     
-    var result = 0.0 
+    var result = 0.0
     var operation = ""
     var doingSomeOperation = false
     
