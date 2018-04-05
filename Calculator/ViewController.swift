@@ -10,21 +10,28 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var display: UILabel!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         inTheMiddleOfTyping = false
     }
-    private var inTheMiddleOfTyping: Bool! 
     
+    @IBOutlet weak var display: UILabel!
     
-    private func resetDisplay() {
-        inTheMiddleOfTyping = false
-        display.text = "0"
-        result = 0.0
-        operation = ""
-        doingSomeOperation = false
+    private var inTheMiddleOfTyping: Bool!
+    var result = 0.0 {
+        didSet {
+            displayValue = result
+        }
+    }
+    var operation = ""
+    var doingSomeOperation = false
+    var displayValue: Double {
+        get {
+            return Double(display.text!)!
+        }
+        set {
+            display.text = String(newValue)
+        }
     }
     
     @IBAction func touchTheButton(_ sender: UIButton) {
@@ -42,38 +49,31 @@ class ViewController: UIViewController {
         resetDisplay()
     }
     
-    var displayValue: Double {
-        get {
-            return Double(display.text!)!
-        }
-        set {
-            display.text = String(newValue)
-        }
-    }
-    
-    var result = 0.0
-    var operation = ""
-    var doingSomeOperation = false
-    
     @IBAction func performOperation(_ sender: UIButton) {
-        inTheMiddleOfTyping = false
         if let mathematicalSymbol = sender.currentTitle {
-            switch mathematicalSymbol {
-            case "=":
-                doingSomeOperation = false
-                displayValue = doOperation(for: result, displayValue, by: operation)
-            default:
+            if inTheMiddleOfTyping {
+                inTheMiddleOfTyping = false
                 if doingSomeOperation {
                     result = doOperation(for: result, displayValue, by: operation)
                     doingSomeOperation = false
-                    displayValue = result
                 } else {
                     result = displayValue
                 }
-                operation = mathematicalSymbol
                 doingSomeOperation = true
             }
+            operation = mathematicalSymbol
         }
+    }
+    
+    var previousValue = 0.0
+    
+    @IBAction func equalOperation(_ sender: UIButton) {
+        if inTheMiddleOfTyping {
+            previousValue = displayValue
+        }
+        inTheMiddleOfTyping = false
+        doingSomeOperation = true
+        result = doOperation(for: result, previousValue, by: operation)
     }
     
     func doOperation(for firstOperand: Double, _ secondOperand: Double, by operation: String) -> Double {
@@ -92,5 +92,13 @@ class ViewController: UIViewController {
         }
         return result
     }
+    
+    private func resetDisplay() {
+        inTheMiddleOfTyping = false
+        result = 0.0
+        operation = ""
+        doingSomeOperation = false
+    }
+    
 }
 
