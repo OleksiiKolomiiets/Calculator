@@ -23,6 +23,7 @@ class ViewController: UIViewController {
             displayValue = result
         }
     }
+    var previousValue = 0.0
     var operation = ""
     var doingSomeOperation = false
     var displayValue: Double {
@@ -64,8 +65,6 @@ class ViewController: UIViewController {
             operation = mathematicalSymbol
         }
     }
-    
-    var previousValue = 0.0
     
     @IBAction func equalOperation(_ sender: UIButton) {
         if inTheMiddleOfTyping {
