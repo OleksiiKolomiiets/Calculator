@@ -18,9 +18,19 @@ func doOperation(for firstOperand: Double, _ secondOperand: Double, by operation
     case "*":
         result = firstOperand * secondOperand
     case "/":
-        result = firstOperand / secondOperand
+        if secondOperand != 0.0 {
+            result = firstOperand / secondOperand
+        } else {
+            result = firstOperand
+        }
     default:
         break
     }
     return result
 }
+
+func isValid(valueForInput value: Double) -> Bool {
+    return value < 1000 && value > -1000
+}
+
+
