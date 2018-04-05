@@ -70,31 +70,20 @@ class ViewController: UIViewController {
         if inTheMiddleOfTyping {
             previousValue = displayValue
         }
+        if operation == "" {
+            result = previousValue
+        } else {
+            result = doOperation(for: result, previousValue, by: operation)
+        }
         inTheMiddleOfTyping = false
         doingSomeOperation = true
-        result = doOperation(for: result, previousValue, by: operation)
-    }
-    
-    func doOperation(for firstOperand: Double, _ secondOperand: Double, by operation: String) -> Double {
-        var result = 0.0
-        switch operation {
-        case "+":
-            result = firstOperand + secondOperand
-        case "-":
-            result = firstOperand - secondOperand
-        case "*":
-            result = firstOperand * secondOperand
-        case "/":
-            result = firstOperand / secondOperand
-        default:
-            break
-        }
-        return result
+        
     }
     
     private func resetDisplay() {
         inTheMiddleOfTyping = false
         result = 0.0
+        previousValue = 0.0
         operation = ""
         doingSomeOperation = false
     }
