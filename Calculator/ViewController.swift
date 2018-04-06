@@ -56,22 +56,32 @@ class ViewController: UIViewController {
         resetDisplay()
     }
     
-    @IBAction func performOperation(_ sender: UIButton) {
+    @IBAction func performOperationWithTwoOperands(_ sender: UIButton) {
         if let mathematicalSymbol = sender.currentTitle {
             if inTheMiddleOfTyping {
-                inTheMiddleOfTyping = false
                 if doingSomeOperation {
                     resultValue = doOperation(for: resultValue, displayValue, by: currentOperation)
                     doingSomeOperation = false
                 } else {
                     resultValue = displayValue
                 }
+                inTheMiddleOfTyping = false
                 doingSomeOperation = true
             }
             currentOperation = mathematicalSymbol
         }
     }
     
+    @IBAction func performOperationWithOneOperand(_ sender: UIButton) {
+        if inTheMiddleOfTyping {
+            if let operationTitle = sender.currentTitle {
+                resultValue = doOperation(for: displayValue, by: operationTitle)
+            }
+        } else {
+            inTheMiddleOfTyping = false
+            doingSomeOperation = true
+        }
+    }
     @IBAction func equalOperation(_ sender: UIButton) {
         if inTheMiddleOfTyping {
             previousValue = displayValue

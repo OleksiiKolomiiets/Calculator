@@ -23,7 +23,25 @@ func doOperation(for firstOperand: Double, _ secondOperand: Double, by operation
         } else {
             result = firstOperand
         }
+    case "𝚡ʸ":
+        result = pow(firstOperand, secondOperand)
     default:
+        break
+    }
+    return result
+}
+
+func doOperation(for operand: Double, by operation: String) -> Double {
+    var result = 0.0
+    switch operation {
+    case "𝚡²":
+        result = pow(operand, 2)
+    case "𝚡³":
+        result = pow(operand, 3)
+    case "𝚎ˣ":
+        result = exp(operand)
+    default:
+        print("wrong characters: \(operation)")
         break
     }
     return result

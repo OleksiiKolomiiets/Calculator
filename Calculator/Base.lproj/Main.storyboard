@@ -45,7 +45,7 @@
                                                 <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
                                                 <variation key="heightClass=regular-widthClass=regular" hidden="NO"/>
                                                 <connections>
-                                                    <action selector="equalOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kct-Mv-mU7"/>
+                                                    <action selector="performOperationWithOneOperand:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Cck-Wo-cE1"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kSs-rZ-uiK">
@@ -56,7 +56,7 @@
                                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="t4F-0a-KfI"/>
+                                                    <action selector="performOperationWithTwoOperands:" destination="BYZ-38-t0r" eventType="touchUpInside" id="t4F-0a-KfI"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n8C-dq-1ds">
@@ -115,7 +115,7 @@
                                                 </state>
                                                 <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
                                                 <connections>
-                                                    <action selector="equalOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EIj-MI-Zmy"/>
+                                                    <action selector="performOperationWithOneOperand:" destination="BYZ-38-t0r" eventType="touchUpInside" id="i1Y-DM-BXM"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h2p-ax-Dim">
@@ -126,7 +126,7 @@
                                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bcC-eF-qMT"/>
+                                                    <action selector="performOperationWithTwoOperands:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bcC-eF-qMT"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TON-hv-J64">
@@ -185,7 +185,7 @@
                                                 </state>
                                                 <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
                                                 <connections>
-                                                    <action selector="equalOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HtK-Wd-ZOk"/>
+                                                    <action selector="performOperationWithOneOperand:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cX6-Do-uHW"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="67F-U3-mMx">
@@ -196,7 +196,7 @@
                                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yb9-wk-kd8"/>
+                                                    <action selector="performOperationWithTwoOperands:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yb9-wk-kd8"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwI-P2-ezS">
@@ -255,7 +255,7 @@
                                                 </state>
                                                 <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
                                                 <connections>
-                                                    <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Inw-bC-lNz"/>
+                                                    <action selector="performOperationWithTwoOperands:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Inw-bC-lNz"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i1S-eK-BBL">
@@ -266,7 +266,7 @@
                                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vr0-ft-mb3"/>
+                                                    <action selector="performOperationWithTwoOperands:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vr0-ft-mb3"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwZ-c1-wXl">
