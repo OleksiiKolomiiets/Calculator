@@ -40,6 +40,14 @@ func doOperation(for operand: Double, by operation: String) -> Double {
         result = pow(operand, 3)
     case "𝚎ˣ":
         result = exp(operand)
+    case "sin":
+        result = sin(operand*Double.pi/180)
+    case "cos":
+        result = cos(operand*Double.pi/180)
+    case "tan":
+        result = tan(operand*Double.pi/180)
+    case "ctan":
+        result = tanh(operand*Double.pi/180)
     default:
         print("wrong characters: \(operation)")
         break

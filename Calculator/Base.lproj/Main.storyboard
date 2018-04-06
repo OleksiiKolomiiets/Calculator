@@ -34,6 +34,9 @@
                                                 </state>
                                                 <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
                                                 <variation key="heightClass=regular-widthClass=regular" hidden="NO"/>
+                                                <connections>
+                                                    <action selector="performOperationWithOneOperand:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Jo4-TY-jLn"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="awS-TW-108">
                                                 <rect key="frame" x="117.33333333333334" y="0.0" width="109.33333333333334" height="48"/>
@@ -105,6 +108,9 @@
                                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
+                                                <connections>
+                                                    <action selector="performOperationWithOneOperand:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5nX-cJ-6kD"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdR-Xb-fpr">
                                                 <rect key="frame" x="117.33333333333334" y="0.0" width="109.33333333333334" height="48"/>
@@ -175,6 +181,9 @@
                                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
+                                                <connections>
+                                                    <action selector="performOperationWithOneOperand:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dqm-ZV-WR1"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wEW-ZM-sPc">
                                                 <rect key="frame" x="117.33333333333334" y="0.0" width="109.33333333333334" height="48"/>
@@ -245,6 +254,9 @@
                                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
+                                                <connections>
+                                                    <action selector="performOperationWithOneOperand:" destination="BYZ-38-t0r" eventType="touchUpInside" id="M6t-ij-WpZ"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LHC-zq-F4C">
                                                 <rect key="frame" x="117.33333333333334" y="0.0" width="109.33333333333334" height="48"/>
