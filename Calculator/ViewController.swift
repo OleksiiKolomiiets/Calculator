@@ -39,7 +39,10 @@ class ViewController: UIViewController {
         let digit = sender.currentTitle!
         if inTheMiddleOfTyping, display.text != "0" {
             let textCurrentlyInDisplay = display.text!
-            display.text = textCurrentlyInDisplay + digit
+            let inputedValue = Double(textCurrentlyInDisplay + digit)!
+            if isValid(valueForInput: inputedValue) {
+                display.text = textCurrentlyInDisplay + digit
+            }
         } else if digit != "0" {
             display.text = digit
             inTheMiddleOfTyping = true
