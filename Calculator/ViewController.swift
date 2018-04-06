@@ -12,23 +12,26 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        inTheMiddleOfTyping = false
     }
     
     @IBOutlet weak var display: UILabel!
     
-    private var inTheMiddleOfTyping: Bool!
-    var result = 0.0 {
+    private var inTheMiddleOfTyping = false
+    var resultValue = 0.0 {
         didSet {
-            displayValue = result
+            displayValue = resultValue
         }
     }
     var previousValue = 0.0
-    var operation = ""
+    var currentOperation = ""
     var doingSomeOperation = false
     var displayValue: Double {
         get {
-            return Double(display.text!)!
+            if let displayText = display.text {
+                return Double(displayText)!
+            } else {
+                return self.displayValue
+            }
         }
         set {
             display.text = String(newValue)
@@ -58,14 +61,14 @@ class ViewController: UIViewController {
             if inTheMiddleOfTyping {
                 inTheMiddleOfTyping = false
                 if doingSomeOperation {
-                    result = doOperation(for: result, displayValue, by: operation)
+                    resultValue = doOperation(for: resultValue, displayValue, by: currentOperation)
                     doingSomeOperation = false
                 } else {
-                    result = displayValue
+                    resultValue = displayValue
                 }
                 doingSomeOperation = true
             }
-            operation = mathematicalSymbol
+            currentOperation = mathematicalSymbol
         }
     }
     
@@ -73,23 +76,21 @@ class ViewController: UIViewController {
         if inTheMiddleOfTyping {
             previousValue = displayValue
         }
-        if operation == "" {
-            result = previousValue
+        if currentOperation == "" {
+            resultValue = previousValue
         } else {
-            result = doOperation(for: result, previousValue, by: operation)
+            resultValue = doOperation(for: resultValue, previousValue, by: currentOperation)
         }
         inTheMiddleOfTyping = false
         doingSomeOperation = true
-        
     }
     
     private func resetDisplay() {
         inTheMiddleOfTyping = false
-        result = 0.0
+        resultValue = 0.0
         previousValue = 0.0
-        operation = ""
+        currentOperation = ""
         doingSomeOperation = false
     }
-    
 }
 
