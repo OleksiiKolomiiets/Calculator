@@ -49,6 +49,18 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func makeOpposite() {
+        if doingSomeOperation {
+            if !inTheMiddleOfTyping {
+                result = -result
+            } else {
+                display.text = String(-Double(display.text!)!)
+            }
+        } else {
+            displayValue = -displayValue
+        }
+    }
+    
     @IBAction func clear(_ sender: UIButton) {
         resetDisplay()
     }
