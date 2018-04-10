@@ -19,25 +19,43 @@ struct CalculatorBrain {
         case clear
     }
     
-    private var operations: Dictionary<String,Operation> = [
-        "𝚡²": .oneOperandOperations({ pow($0, 2) }),
-        "𝚡³": .oneOperandOperations({ pow($0, 3) }),
-        "𝚎ˣ": .oneOperandOperations(exp),
-        "sin": .oneOperandOperations(sin),
-        "cos": .oneOperandOperations(cos),
-        "tan": .oneOperandOperations(tan),
-        "ctan": .oneOperandOperations(tanh),
-        "±": .oneOperandOperations({ -$0 }),
-        "+": .twoOperandOperations({ $0 + $1 }),
-        "-": .twoOperandOperations({ $0 - $1 }),
-        "*": .twoOperandOperations({ $0 * $1}),
-        "/": .twoOperandOperations(division),
-        "𝚡ʸ": .twoOperandOperations(pow),
-        "=": .equals,
-        "c": .clear
+    enum OperationSumbols: String {
+        case square = "𝚡²"
+        case cube = "𝚡³"
+        case exp = "𝚎ˣ"
+        case sin = "sin"
+        case cos = "cos"
+        case tan = "tan"
+        case ctan = "ctan"
+        case opposite = "±"
+        case plus = "+"
+        case minus = "-"
+        case multiply = "*"
+        case division = "/"
+        case pow = "𝚡ʸ"
+        case equals = "="
+        case clear = "c"
+    }
+    
+    private var operations: Dictionary<OperationSumbols,Operation> = [
+        .square: .oneOperandOperations({ pow($0, 2) }),
+        .cube: .oneOperandOperations({ pow($0, 3) }),
+        .exp: .oneOperandOperations(exp),
+        .sin: .oneOperandOperations(sin),
+        .cos: .oneOperandOperations(cos),
+        .tan: .oneOperandOperations(tan),
+        .ctan: .oneOperandOperations(tanh),
+        .opposite: .oneOperandOperations({ -$0 }),
+        .plus: .twoOperandOperations({ $0 + $1 }),
+        .minus: .twoOperandOperations({ $0 - $1 }),
+        .multiply: .twoOperandOperations({ $0 * $1 }),
+        .division: .twoOperandOperations(division),
+        .pow: .twoOperandOperations(pow),
+        .equals: .equals,
+        .clear: .clear
     ]
     
-    mutating func performOperation(_ symbol: String) {
+    mutating func performOperation(_ symbol: OperationSumbols) {
         if let operation = operations[symbol] {
             switch operation {
             case .oneOperandOperations(let function):
@@ -46,7 +64,7 @@ struct CalculatorBrain {
                 }
             case .twoOperandOperations(let function):
                 if accumulator != nil {
-                    pendingForTwoOperandOperations = PendingForTowOperandOperations(function: function, firstOperand: accumulator!)
+                    pendingForTwoOperandOperations = PendingForTowOperandOperations(function:  function, firstOperand: accumulator!)
                     accumulator = nil
                 }
             case .equals:
@@ -86,7 +104,7 @@ struct CalculatorBrain {
 }
 
 func division(_ a: Double, _ b: Double) -> Double {
-    return b != 0.0 ? (a / b) : 0.0
+    return b != 0.0 ? (a / b) : 0.0 // ToDo: Error
 }
 
 func isValid(valueForInput value: Double) -> Bool {
