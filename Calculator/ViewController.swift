@@ -13,14 +13,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var displayLabel: UILabel!
     
     private var isInTheMiddleOfTyping = false
-    var resultValue = 0.0 {
-        didSet {
-            displayValue = resultValue // TODO: replace
-        }
-    }
-    var previousValue = 0.0
-    var currentOperation = "" // TODO: enum?
-    var isDoingSomeOperation = false
     
     var displayValue: Double {
         get {
@@ -48,7 +40,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func clear(_ sender: UIButton) {
-        resetDisplay()
+        if let sumbol = sender.currentTitle {
+            displayValue = 0
+            brain.performOperation(sumbol)
+        }
     }
     
     private var brain = CalculatorBrain()
@@ -65,18 +60,4 @@ class ViewController: UIViewController {
             displayValue = result
         }
     }
-    
-    @IBAction func makeOpposite() {
-        displayValue = -displayValue
-        isInTheMiddleOfTyping = false
-    }
-    
-    private func resetDisplay() {
-        isInTheMiddleOfTyping = false
-        resultValue = 0.0
-        previousValue = 0.0
-        currentOperation = ""
-        isDoingSomeOperation = false
-    }
 }
-

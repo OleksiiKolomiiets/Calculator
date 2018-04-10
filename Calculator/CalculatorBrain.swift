@@ -8,8 +8,6 @@
 
 import Foundation
 
-//enum Operati
-
 struct CalculatorBrain {
     
     private var accumulator: Double?
@@ -18,6 +16,7 @@ struct CalculatorBrain {
         case twoOperandOperations((Double, Double) -> Double)
         case oneOperandOperations((Double) -> Double)
         case equals
+        case clear
     }
     
     private var operations: Dictionary<String,Operation> = [
@@ -28,13 +27,14 @@ struct CalculatorBrain {
         "cos": .oneOperandOperations(cos),
         "tan": .oneOperandOperations(tan),
         "ctan": .oneOperandOperations(tanh),
+        "±": .oneOperandOperations(changeSign),
         "+": .twoOperandOperations(addition),
         "-": .twoOperandOperations(subtraction),
         "*": .twoOperandOperations(multiplication),
         "/": .twoOperandOperations(division),
         "𝚡ʸ": .twoOperandOperations(pow),
-        "=": .equals
-        
+        "=": .equals,
+        "c": .clear
     ]
     
     mutating func performOperation(_ symbol: String) {
@@ -51,6 +51,8 @@ struct CalculatorBrain {
                 }
             case .equals:
                 performHoldingOperandForTowOperandOperations()
+            case .clear:
+                accumulator = nil
             }
         }
     }
@@ -67,7 +69,6 @@ struct CalculatorBrain {
     private struct PendingForTowOperandOperations {
         let function: (Double, Double) -> Double
         let firstOperand: Double
-    
         func perform(with secondOperand: Double) -> Double {
             return function(firstOperand, secondOperand)
         }
@@ -82,31 +83,6 @@ struct CalculatorBrain {
             return accumulator
         }
     }
-    
-    func doOperation(_ operation: String, for operand: Double) -> Double {
-        var result = 0.0
-        switch operation {
-        case "𝚡²":
-            result = pow(operand, 2)
-        case "𝚡³":
-            result = pow(operand, 3)
-        case "𝚎ˣ":
-            result = exp(operand)
-        case "sin":
-            result = sin(operand*Double.pi/180)
-        case "cos":
-            result = cos(operand*Double.pi/180)
-        case "tan":
-            result = tan(operand*Double.pi/180)
-        case "ctan":
-            result = tanh(operand*Double.pi/180)
-        default:
-            print("wrong characters: \(operation)")
-            break
-        }
-        return result
-    }
-    
 }
 
 func getSquareOf(_ operand: Double) -> Double {
@@ -137,10 +113,10 @@ func division(_ a: Double, _ b: Double) -> Double {
     }
 }
 
+func changeSign(_ a: Double) -> Double {
+    return -a
+}
+
 func isValid(valueForInput value: Double) -> Bool {
     return value < 1000 && value > -1000
 }
-
-
-
-
