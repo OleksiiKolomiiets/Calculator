@@ -10,45 +10,40 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+    @IBOutlet weak var displayLabel: UILabel!
     
-    @IBOutlet weak var display: UILabel!
-    
-    private var inTheMiddleOfTyping = false
+    private var isInTheMiddleOfTyping = false
     var resultValue = 0.0 {
         didSet {
-            displayValue = resultValue
+            displayValue = resultValue // TODO: replace
         }
     }
     var previousValue = 0.0
-    var currentOperation = ""
-    var doingSomeOperation = false
+    var currentOperation = "" // TODO: enum?
+    var isDoingSomeOperation = false
+    
     var displayValue: Double {
         get {
-            if let displayText = display.text {
-                return Double(displayText)!
+            if let displayText = displayLabel.text, let doubleValue = Double(displayText) {
+                return doubleValue
             } else {
-                return self.displayValue
+                return 0
             }
         }
         set {
-            display.text = String(newValue)
+            displayLabel.text = String(newValue)
         }
     }
     
-    @IBAction func touchTheButton(_ sender: UIButton) {
+    @IBAction func touchTheDigitButton(_ sender: UIButton) {
         let digit = sender.currentTitle!
-        if inTheMiddleOfTyping, display.text != "0" {
-            let textCurrentlyInDisplay = display.text!
-            let inputedValue = Double(textCurrentlyInDisplay + digit)!
+        if isInTheMiddleOfTyping, displayLabel.text != "0", let textCurrentlyInDisplay = displayLabel.text, let inputedValue = Double(textCurrentlyInDisplay + digit) {
             if isValid(valueForInput: inputedValue) {
-                display.text = textCurrentlyInDisplay + digit
+                displayLabel.text = textCurrentlyInDisplay + digit
             }
-        } else if digit != "0" {
-            display.text = digit
-            inTheMiddleOfTyping = true
+        } else {
+            displayLabel.text = digit
+            isInTheMiddleOfTyping = true
         }
     }
     
@@ -56,62 +51,32 @@ class ViewController: UIViewController {
         resetDisplay()
     }
     
-    @IBAction func performOperationWithTwoOperands(_ sender: UIButton) {
+    private var brain = CalculatorBrain()
+    
+    @IBAction func performOperation(_ sender: UIButton) {
+        if isInTheMiddleOfTyping {
+            brain.setOperand(displayValue)
+            isInTheMiddleOfTyping = false
+        }
         if let mathematicalSymbol = sender.currentTitle {
-            if inTheMiddleOfTyping {
-                if doingSomeOperation {
-                    resultValue = doOperation(for: resultValue, displayValue, by: currentOperation)
-                    doingSomeOperation = false
-                } else {
-                    resultValue = displayValue
-                }
-                inTheMiddleOfTyping = false
-                doingSomeOperation = true
-            }
-            currentOperation = mathematicalSymbol
+            brain.performOperation(mathematicalSymbol)
+        }
+        if let result = brain.result {
+            displayValue = result
         }
     }
+    
     @IBAction func makeOpposite() {
-        if doingSomeOperation {
-            if !inTheMiddleOfTyping {
-                resultValue = -resultValue
-            } else {
-                display.text = String(-Double(display.text!)!)
-            }
-        } else {
-            displayValue = -displayValue
-        }
-    }    
-
-    @IBAction func performOperationWithOneOperand(_ sender: UIButton) {
-        if inTheMiddleOfTyping {
-            if let operationTitle = sender.currentTitle {
-                resultValue = doOperation(for: displayValue, by: operationTitle)
-            }
-        } else {
-            inTheMiddleOfTyping = false
-            doingSomeOperation = true
-        }
-    }
-    @IBAction func equalOperation(_ sender: UIButton) {
-        if inTheMiddleOfTyping {
-            previousValue = displayValue
-        }
-        if currentOperation == "" {
-            resultValue = previousValue
-        } else {
-            resultValue = doOperation(for: resultValue, previousValue, by: currentOperation)
-        }
-        inTheMiddleOfTyping = false
-        doingSomeOperation = true
+        displayValue = -displayValue
+        isInTheMiddleOfTyping = false
     }
     
     private func resetDisplay() {
-        inTheMiddleOfTyping = false
+        isInTheMiddleOfTyping = false
         resultValue = 0.0
         previousValue = 0.0
         currentOperation = ""
-        doingSomeOperation = false
+        isDoingSomeOperation = false
     }
 }
 
