@@ -71,7 +71,18 @@ class ViewController: UIViewController {
             currentOperation = mathematicalSymbol
         }
     }
-    
+    @IBAction func makeOpposite() {
+        if doingSomeOperation {
+            if !inTheMiddleOfTyping {
+                resultValue = -resultValue
+            } else {
+                display.text = String(-Double(display.text!)!)
+            }
+        } else {
+            displayValue = -displayValue
+        }
+    }    
+
     @IBAction func performOperationWithOneOperand(_ sender: UIButton) {
         if inTheMiddleOfTyping {
             if let operationTitle = sender.currentTitle {
