@@ -20,17 +20,17 @@ struct CalculatorBrain {
     }
     
     private var operations: Dictionary<String,Operation> = [
-        "𝚡²": .oneOperandOperations(getSquareOf),
-        "𝚡³": .oneOperandOperations(getCubeOf),
+        "𝚡²": .oneOperandOperations({ pow($0, 2) }),
+        "𝚡³": .oneOperandOperations({ pow($0, 3) }),
         "𝚎ˣ": .oneOperandOperations(exp),
         "sin": .oneOperandOperations(sin),
         "cos": .oneOperandOperations(cos),
         "tan": .oneOperandOperations(tan),
         "ctan": .oneOperandOperations(tanh),
-        "±": .oneOperandOperations(changeSign),
-        "+": .twoOperandOperations(addition),
-        "-": .twoOperandOperations(subtraction),
-        "*": .twoOperandOperations(multiplication),
+        "±": .oneOperandOperations({ -$0 }),
+        "+": .twoOperandOperations({ $0 + $1 }),
+        "-": .twoOperandOperations({ $0 - $1 }),
+        "*": .twoOperandOperations({ $0 * $1}),
         "/": .twoOperandOperations(division),
         "𝚡ʸ": .twoOperandOperations(pow),
         "=": .equals,
@@ -85,36 +85,8 @@ struct CalculatorBrain {
     }
 }
 
-func getSquareOf(_ operand: Double) -> Double {
-    return pow(operand, 2)
-}
-
-func getCubeOf(_ operand: Double) -> Double {
-    return pow(operand, 3)
-}
-
-func addition(_ a: Double, _ b: Double) -> Double {
-    return a + b
-}
-
-func subtraction(_ a: Double, _ b: Double) -> Double {
-    return a - b
-}
-
-func multiplication(_ a: Double, _ b: Double) -> Double {
-    return a * b
-}
-
 func division(_ a: Double, _ b: Double) -> Double {
-    if b != 0.0 {
-        return a / b
-    } else {
-        return 0.0
-    }
-}
-
-func changeSign(_ a: Double) -> Double {
-    return -a
+    return b != 0.0 ? (a / b) : 0.0
 }
 
 func isValid(valueForInput value: Double) -> Bool {
