@@ -38,14 +38,7 @@ class ViewController: UIViewController {
             isInTheMiddleOfTyping = true
         }
     }
-    
-    @IBAction func clear(_ sender: UIButton) {
-        if let sumbol = sender.currentTitle {
-            displayValue = 0
-            brain.performOperation(sumbol)
-        }
-    }
-    
+      
     private var brain = CalculatorBrain()
     
     @IBAction func performOperation(_ sender: UIButton) {
