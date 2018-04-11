@@ -107,6 +107,6 @@ func division(_ a: Double, _ b: Double) throws -> Double {
     if b != 0 {
         return a / b
     } else {
-        throw CalculatorErrors.unexpectedError
+        throw CalculatorErrors.dividedByZero
     }
 }
