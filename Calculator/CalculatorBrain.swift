@@ -56,23 +56,19 @@ struct CalculatorBrain {
     ]
     
     mutating func performOperation(_ symbol: OperationSumbols) throws {
-        if let operation = operations[symbol] {
+        if let operation = operations[symbol], let accumulatorValue = accumulator {
             switch operation {
             case .oneOperandOperations(let function):
                 if accumulator != nil {
-                    accumulator = function(accumulator!)
+                    accumulator = function(accumulatorValue)
                 }
             case .twoOperandOperations(let function):
                 if accumulator != nil {
-                    pendingForTwoOperandOperations = PendingForTowOperandOperations(function:  function, firstOperand: accumulator!)
+                    pendingForTwoOperandOperations = PendingForTowOperandOperations(function:  function, firstOperand: accumulatorValue)
                     accumulator = nil
                 }
             case .equals:
-                do {
-                    try performHoldingOperandForTowOperandOperations()
-                } catch (let error) {
-                    throw error
-                }
+                try performHoldingOperandForTowOperandOperations()
             case .clear:
                 accumulator = 0.0
             }
@@ -80,12 +76,8 @@ struct CalculatorBrain {
     }
     
     mutating private func performHoldingOperandForTowOperandOperations() throws {
-        if pendingForTwoOperandOperations != nil && accumulator != nil {
-            do {
-                try accumulator = pendingForTwoOperandOperations!.perform(with: accumulator!)
-            } catch (let error) {
-                throw error
-            }
+        if pendingForTwoOperandOperations != nil, accumulator != nil, let accumulatorValue = accumulator {
+            try accumulator = pendingForTwoOperandOperations!.perform(with: accumulatorValue)
             pendingForTwoOperandOperations = nil
         }
     }
@@ -96,11 +88,7 @@ struct CalculatorBrain {
         let function: (Double, Double) throws -> Double
         let firstOperand: Double
         func perform(with secondOperand: Double) throws -> Double {
-            do {
-                return try function(firstOperand, secondOperand)
-            } catch (let error){
-                throw error
-            }
+            return try function(firstOperand, secondOperand)
         }
     }
     
@@ -119,6 +107,6 @@ func division(_ a: Double, _ b: Double) throws -> Double {
     if b != 0 {
         return a / b
     } else {
-        throw CalculatorErrors.dividedByZero
+        throw CalculatorErrors.unexpectedError
     }
 }

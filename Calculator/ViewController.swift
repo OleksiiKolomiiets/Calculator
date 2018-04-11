@@ -28,17 +28,17 @@ class ViewController: UIViewController {
             } else {
                 displayLabel.text = String(newValue)
             }
-            
         }
     }
     
     @IBAction func touchTheDigitButton(_ sender: UIButton) {
-        let digit = sender.currentTitle!
-        if isInTheMiddleOfTyping, displayLabel.text != "0", let textCurrentlyInDisplay = displayLabel.text {
-            displayLabel.text = textCurrentlyInDisplay + digit
-        } else {
-            displayLabel.text = digit
-            isInTheMiddleOfTyping = true
+        if let digit = sender.currentTitle {
+            if isInTheMiddleOfTyping, displayLabel.text != "0", let textCurrentlyInDisplay = displayLabel.text {
+                displayLabel.text = textCurrentlyInDisplay + digit
+            } else {
+                displayLabel.text = digit
+                isInTheMiddleOfTyping = true
+            }
         }
     }
       
@@ -54,16 +54,12 @@ class ViewController: UIViewController {
         if let mathematicalSymbol = sender.currentTitle, let value = CalculatorBrain.OperationSumbols(rawValue: mathematicalSymbol) {
             do {
                 try brain.performOperation(value)
-            } catch (let error) {
+            } catch let error as CalculatorErrors {
                 hasError = true
-                switch error {
-                case CalculatorErrors.haveInfinity:
-                    displayLabel.text = CalculatorErrors.haveInfinity.description
-                case CalculatorErrors.dividedByZero:
-                    displayLabel.text = CalculatorErrors.dividedByZero.description
-                default:
-                    break
-                }
+                displayLabel.text = error.description
+            } catch {
+                hasError = true
+                displayLabel.text = "Error: unexpected"
             }
         }
         if let result = brain.result, !hasError {
