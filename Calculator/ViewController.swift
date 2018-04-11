@@ -59,7 +59,7 @@ class ViewController: UIViewController {
                 displayLabel.text = error.description
             } catch {
                 hasError = true
-                displayLabel.text = "Error: unexpected"
+                displayLabel.text = "Error: \(error)"
             }
         }
         if let result = brain.result, !hasError {
