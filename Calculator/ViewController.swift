@@ -23,16 +23,19 @@ class ViewController: UIViewController {
             }
         }
         set {
-            displayLabel.text = String(newValue)
+            if !newValue.isFinite {
+                displayLabel.text = CalculatorErrors.haveInfinity.description
+            } else {
+                displayLabel.text = String(newValue)
+            }
+            
         }
     }
     
     @IBAction func touchTheDigitButton(_ sender: UIButton) {
         let digit = sender.currentTitle!
-        if isInTheMiddleOfTyping, displayLabel.text != "0", let textCurrentlyInDisplay = displayLabel.text, let inputedValue = Double(textCurrentlyInDisplay + digit) {
-            if isValid(valueForInput: inputedValue) {
-                displayLabel.text = textCurrentlyInDisplay + digit
-            }
+        if isInTheMiddleOfTyping, displayLabel.text != "0", let textCurrentlyInDisplay = displayLabel.text {
+            displayLabel.text = textCurrentlyInDisplay + digit
         } else {
             displayLabel.text = digit
             isInTheMiddleOfTyping = true
@@ -41,16 +44,31 @@ class ViewController: UIViewController {
       
     private var brain = CalculatorBrain()
     
+    private var hasError: Bool = false
+    
     @IBAction func performOperation(_ sender: UIButton) {
         if isInTheMiddleOfTyping {
             brain.setOperand(displayValue)
             isInTheMiddleOfTyping = false
         }
         if let mathematicalSymbol = sender.currentTitle, let value = CalculatorBrain.OperationSumbols(rawValue: mathematicalSymbol) {
-            brain.performOperation(value)
+            do {
+                try brain.performOperation(value)
+            } catch (let error) {
+                hasError = true
+                switch error {
+                case CalculatorErrors.haveInfinity:
+                    displayLabel.text = CalculatorErrors.haveInfinity.description
+                case CalculatorErrors.dividedByZero:
+                    displayLabel.text = CalculatorErrors.dividedByZero.description
+                default:
+                    break
+                }
+            }
         }
-        if let result = brain.result {
+        if let result = brain.result, !hasError {
             displayValue = result
         }
+        hasError = false
     }
 }

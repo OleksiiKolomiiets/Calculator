@@ -13,6 +13,7 @@
 		F22577CD2074B4080072C031 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F22577CB2074B4080072C031 /* Main.storyboard */; };
 		F22577CF2074B4080072C031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F22577CE2074B4080072C031 /* Assets.xcassets */; };
 		F22577D22074B4080072C031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F22577D02074B4080072C031 /* LaunchScreen.storyboard */; };
+		F252B219207DF5D700AA77D6 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F252B218207DF5D700AA77D6 /* Errors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		F22577CE2074B4080072C031 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F22577D12074B4080072C031 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F22577D32074B4080072C031 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F252B218207DF5D700AA77D6 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				F22577C92074B4080072C031 /* ViewController.swift */,
 				F22577CB2074B4080072C031 /* Main.storyboard */,
 				F210A11820764AEE002A2616 /* SupportFiles */,
+				F252B218207DF5D700AA77D6 /* Errors.swift */,
 			);
 			path = Calculator;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F252B219207DF5D700AA77D6 /* Errors.swift in Sources */,
 				F210A117207642A0002A2616 /* CalculatorBrain.swift in Sources */,
 				F22577CA2074B4080072C031 /* ViewController.swift in Sources */,
 				F22577C82074B4080072C031 /* AppDelegate.swift in Sources */,

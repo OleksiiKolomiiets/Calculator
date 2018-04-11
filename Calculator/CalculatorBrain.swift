@@ -13,7 +13,7 @@ struct CalculatorBrain {
     private var accumulator: Double?
     
     private enum Operation {
-        case twoOperandOperations((Double, Double) -> Double)
+        case twoOperandOperations((Double, Double) throws -> Double)
         case oneOperandOperations((Double) -> Double)
         case equals
         case clear
@@ -55,7 +55,7 @@ struct CalculatorBrain {
         .clear: .clear
     ]
     
-    mutating func performOperation(_ symbol: OperationSumbols) {
+    mutating func performOperation(_ symbol: OperationSumbols) throws {
         if let operation = operations[symbol] {
             switch operation {
             case .oneOperandOperations(let function):
@@ -68,16 +68,24 @@ struct CalculatorBrain {
                     accumulator = nil
                 }
             case .equals:
-                performHoldingOperandForTowOperandOperations()
+                do {
+                    try performHoldingOperandForTowOperandOperations()
+                } catch (let error) {
+                    throw error
+                }
             case .clear:
-                accumulator = nil
+                accumulator = 0.0
             }
         }
     }
     
-    mutating private func performHoldingOperandForTowOperandOperations() {
+    mutating private func performHoldingOperandForTowOperandOperations() throws {
         if pendingForTwoOperandOperations != nil && accumulator != nil {
-            accumulator = pendingForTwoOperandOperations!.perform(with: accumulator!)
+            do {
+                try accumulator = pendingForTwoOperandOperations!.perform(with: accumulator!)
+            } catch (let error) {
+                throw error
+            }
             pendingForTwoOperandOperations = nil
         }
     }
@@ -85,10 +93,14 @@ struct CalculatorBrain {
     private var pendingForTwoOperandOperations: PendingForTowOperandOperations?
     
     private struct PendingForTowOperandOperations {
-        let function: (Double, Double) -> Double
+        let function: (Double, Double) throws -> Double
         let firstOperand: Double
-        func perform(with secondOperand: Double) -> Double {
-            return function(firstOperand, secondOperand)
+        func perform(with secondOperand: Double) throws -> Double {
+            do {
+                return try function(firstOperand, secondOperand)
+            } catch (let error){
+                throw error
+            }
         }
     }
     
@@ -103,10 +115,10 @@ struct CalculatorBrain {
     }
 }
 
-func division(_ a: Double, _ b: Double) -> Double {
-    return b != 0.0 ? (a / b) : 0.0 // ToDo: Error
-}
-
-func isValid(valueForInput value: Double) -> Bool {
-    return value < 1000 && value > -1000
+func division(_ a: Double, _ b: Double) throws -> Double {
+    if b != 0 {
+        return a / b
+    } else {
+        throw CalculatorErrors.dividedByZero
+    }
 }
