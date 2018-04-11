@@ -10,87 +10,47 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+    @IBOutlet weak var displayLabel: UILabel!
     
-    @IBOutlet weak var display: UILabel!
+    private var isInTheMiddleOfTyping = false
     
-    private var inTheMiddleOfTyping = false
-    var resultValue = 0.0 {
-        didSet {
-            displayValue = resultValue
-        }
-    }
-    var previousValue = 0.0
-    var currentOperation = ""
-    var doingSomeOperation = false
     var displayValue: Double {
         get {
-            if let displayText = display.text {
-                return Double(displayText)!
+            if let displayText = displayLabel.text, let doubleValue = Double(displayText) {
+                return doubleValue
             } else {
-                return self.displayValue
+                return 0
             }
         }
         set {
-            display.text = String(newValue)
+            displayLabel.text = String(newValue)
         }
     }
     
-    @IBAction func touchTheButton(_ sender: UIButton) {
+    @IBAction func touchTheDigitButton(_ sender: UIButton) {
         let digit = sender.currentTitle!
-        if inTheMiddleOfTyping, display.text != "0" {
-            let textCurrentlyInDisplay = display.text!
-            let inputedValue = Double(textCurrentlyInDisplay + digit)!
+        if isInTheMiddleOfTyping, displayLabel.text != "0", let textCurrentlyInDisplay = displayLabel.text, let inputedValue = Double(textCurrentlyInDisplay + digit) {
             if isValid(valueForInput: inputedValue) {
-                display.text = textCurrentlyInDisplay + digit
+                displayLabel.text = textCurrentlyInDisplay + digit
             }
-        } else if digit != "0" {
-            display.text = digit
-            inTheMiddleOfTyping = true
+        } else {
+            displayLabel.text = digit
+            isInTheMiddleOfTyping = true
         }
     }
-    
-    @IBAction func clear(_ sender: UIButton) {
-        resetDisplay()
-    }
+      
+    private var brain = CalculatorBrain()
     
     @IBAction func performOperation(_ sender: UIButton) {
-        if let mathematicalSymbol = sender.currentTitle {
-            if inTheMiddleOfTyping {
-                inTheMiddleOfTyping = false
-                if doingSomeOperation {
-                    resultValue = doOperation(for: resultValue, displayValue, by: currentOperation)
-                    doingSomeOperation = false
-                } else {
-                    resultValue = displayValue
-                }
-                doingSomeOperation = true
-            }
-            currentOperation = mathematicalSymbol
+        if isInTheMiddleOfTyping {
+            brain.setOperand(displayValue)
+            isInTheMiddleOfTyping = false
         }
-    }
-    
-    @IBAction func equalOperation(_ sender: UIButton) {
-        if inTheMiddleOfTyping {
-            previousValue = displayValue
+        if let mathematicalSymbol = sender.currentTitle, let value = CalculatorBrain.OperationSumbols(rawValue: mathematicalSymbol) {
+            brain.performOperation(value)
         }
-        if currentOperation == "" {
-            resultValue = previousValue
-        } else {
-            resultValue = doOperation(for: resultValue, previousValue, by: currentOperation)
+        if let result = brain.result {
+            displayValue = result
         }
-        inTheMiddleOfTyping = false
-        doingSomeOperation = true
-    }
-    
-    private func resetDisplay() {
-        inTheMiddleOfTyping = false
-        resultValue = 0.0
-        previousValue = 0.0
-        currentOperation = ""
-        doingSomeOperation = false
     }
 }
-
