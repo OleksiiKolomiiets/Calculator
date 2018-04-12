@@ -42,7 +42,7 @@ class ViewController: UIViewController {
         }
     }
       
-    private var brain = CalculatorBrain()
+    private let brain = CalculatorBrain()
     
     private var hasError: Bool = false
     
@@ -51,7 +51,7 @@ class ViewController: UIViewController {
             brain.setOperand(displayValue)
             isInTheMiddleOfTyping = false
         }
-        if let mathematicalSymbol = sender.currentTitle, let value = CalculatorBrain.OperationSumbols(rawValue: mathematicalSymbol) {
+        if let mathematicalSymbol = sender.currentTitle, let value = CalculatorBrain.OperationSymbols(rawValue: mathematicalSymbol) {
             do {
                 try brain.performOperation(value)
             } catch let error as CalculatorErrors {
