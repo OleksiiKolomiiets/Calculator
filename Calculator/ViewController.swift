@@ -23,34 +23,48 @@ class ViewController: UIViewController {
             }
         }
         set {
-            displayLabel.text = String(newValue)
+            if !newValue.isFinite {
+                displayLabel.text = CalculatorErrors.haveInfinity.description
+            } else {
+                displayLabel.text = String(newValue)
+            }
         }
     }
     
     @IBAction func touchTheDigitButton(_ sender: UIButton) {
-        let digit = sender.currentTitle!
-        if isInTheMiddleOfTyping, displayLabel.text != "0", let textCurrentlyInDisplay = displayLabel.text, let inputedValue = Double(textCurrentlyInDisplay + digit) {
-            if isValid(valueForInput: inputedValue) {
+        if let digit = sender.currentTitle {
+            if isInTheMiddleOfTyping, displayLabel.text != "0", let textCurrentlyInDisplay = displayLabel.text {
                 displayLabel.text = textCurrentlyInDisplay + digit
+            } else {
+                displayLabel.text = digit
+                isInTheMiddleOfTyping = true
             }
-        } else {
-            displayLabel.text = digit
-            isInTheMiddleOfTyping = true
         }
     }
       
-    private var brain = CalculatorBrain()
+    private let brain = CalculatorBrain()
+    
+    private var hasError: Bool = false
     
     @IBAction func performOperation(_ sender: UIButton) {
         if isInTheMiddleOfTyping {
             brain.setOperand(displayValue)
             isInTheMiddleOfTyping = false
         }
-        if let mathematicalSymbol = sender.currentTitle, let value = CalculatorBrain.OperationSumbols(rawValue: mathematicalSymbol) {
-            brain.performOperation(value)
+        if let mathematicalSymbol = sender.currentTitle, let value = CalculatorBrain.OperationSymbols(rawValue: mathematicalSymbol) {
+            do {
+                try brain.performOperation(value)
+            } catch let error as CalculatorErrors {
+                hasError = true
+                displayLabel.text = error.description
+            } catch {
+                hasError = true
+                displayLabel.text = "Error: \(error)"
+            }
         }
-        if let result = brain.result {
+        if let result = brain.result, !hasError {
             displayValue = result
         }
+        hasError = false
     }
 }

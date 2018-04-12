@@ -8,18 +8,18 @@
 
 import Foundation
 
-struct CalculatorBrain {
+class CalculatorBrain {
     
     private var accumulator: Double?
     
     private enum Operation {
-        case twoOperandOperations((Double, Double) -> Double)
+        case twoOperandOperations((Double, Double) throws -> Double)
         case oneOperandOperations((Double) -> Double)
         case equals
         case clear
     }
     
-    enum OperationSumbols: String {
+    enum OperationSymbols: String {
         case square = "𝚡²"
         case cube = "𝚡³"
         case exp = "𝚎ˣ"
@@ -37,7 +37,7 @@ struct CalculatorBrain {
         case clear = "c"
     }
     
-    private var operations: Dictionary<OperationSumbols,Operation> = [
+    private var operations: Dictionary<OperationSymbols,Operation> = [
         .square: .oneOperandOperations({ pow($0, 2) }),
         .cube: .oneOperandOperations({ pow($0, 3) }),
         .exp: .oneOperandOperations(exp),
@@ -55,29 +55,29 @@ struct CalculatorBrain {
         .clear: .clear
     ]
     
-    mutating func performOperation(_ symbol: OperationSumbols) {
-        if let operation = operations[symbol] {
+    func performOperation(_ symbol: OperationSymbols) throws {
+        if let operation = operations[symbol], let accumulatorValue = accumulator {
             switch operation {
             case .oneOperandOperations(let function):
                 if accumulator != nil {
-                    accumulator = function(accumulator!)
+                    accumulator = function(accumulatorValue)
                 }
             case .twoOperandOperations(let function):
                 if accumulator != nil {
-                    pendingForTwoOperandOperations = PendingForTowOperandOperations(function:  function, firstOperand: accumulator!)
+                    pendingForTwoOperandOperations = PendingForTowOperandOperations(function:  function, firstOperand: accumulatorValue)
                     accumulator = nil
                 }
             case .equals:
-                performHoldingOperandForTowOperandOperations()
+                try performHoldingOperandForTowOperandOperations()
             case .clear:
-                accumulator = nil
+                accumulator = 0.0
             }
         }
     }
     
-    mutating private func performHoldingOperandForTowOperandOperations() {
-        if pendingForTwoOperandOperations != nil && accumulator != nil {
-            accumulator = pendingForTwoOperandOperations!.perform(with: accumulator!)
+    private func performHoldingOperandForTowOperandOperations() throws {
+        if pendingForTwoOperandOperations != nil, accumulator != nil, let accumulatorValue = accumulator {
+            try accumulator = pendingForTwoOperandOperations!.perform(with: accumulatorValue)
             pendingForTwoOperandOperations = nil
         }
     }
@@ -85,14 +85,14 @@ struct CalculatorBrain {
     private var pendingForTwoOperandOperations: PendingForTowOperandOperations?
     
     private struct PendingForTowOperandOperations {
-        let function: (Double, Double) -> Double
+        let function: (Double, Double) throws -> Double
         let firstOperand: Double
-        func perform(with secondOperand: Double) -> Double {
-            return function(firstOperand, secondOperand)
+        func perform(with secondOperand: Double) throws -> Double {
+            return try function(firstOperand, secondOperand)
         }
     }
     
-    mutating func setOperand(_ operand: Double) {
+    func setOperand(_ operand: Double) {
         accumulator = operand
     }
     
@@ -103,10 +103,10 @@ struct CalculatorBrain {
     }
 }
 
-func division(_ a: Double, _ b: Double) -> Double {
-    return b != 0.0 ? (a / b) : 0.0 // ToDo: Error
-}
-
-func isValid(valueForInput value: Double) -> Bool {
-    return value < 1000 && value > -1000
+func division(_ a: Double, _ b: Double) throws -> Double {
+    if b != 0 {
+        return a / b
+    } else {
+        throw CalculatorErrors.dividedByZero
+    }
 }
